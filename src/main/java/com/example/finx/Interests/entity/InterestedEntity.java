@@ -1,4 +1,4 @@
-package com.example.finx.Interests;
+package com.example.finx.Interests.entity;
 
 import com.example.finx.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -10,9 +10,7 @@ public class InterestedEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String interests;
+    private String interest;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserEntity user;
 
 }

@@ -34,6 +34,8 @@ public class SecurityConfig {
                         // healthCheck
                         .requestMatchers(HttpMethod.POST, "/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/interested").authenticated()
                 );
         
         return http.build();
