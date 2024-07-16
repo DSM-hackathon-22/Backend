@@ -28,8 +28,14 @@ public class SecurityConfig {
         http
                 .csrf(CsrfConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize ->
+                authorize
+                        // healthCheck
+                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                );
+        
         return http.build();
     }
 
