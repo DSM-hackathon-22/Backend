@@ -1,5 +1,6 @@
 package com.example.finx.user.jwt;
 
+import com.example.finx.user.service.AuthDetailsService;
 import com.example.finx.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtParser {
 
-    private final UserService userService;
+    private final AuthDetailsService authDetailsService;
 
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
@@ -33,7 +34,7 @@ public class JwtParser {
     }
 
     private UserDetails getUserDetails(String id) {
-        return userService.loadUserByUsername(id);
+        return authDetailsService.loadUserByUsername(id);
     }
 
     private Claims getClaims(String token) {
