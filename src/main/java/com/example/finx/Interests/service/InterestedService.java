@@ -27,7 +27,7 @@ public class InterestedService {
 
         // for 문 돌면서 USERInterested를 저장
         interestsDto.getInterests().forEach(interest -> {
-                InterestedEntity interestedEntity=interestedRepository.findByInterest(interest).get()
+                InterestedEntity interestedEntity=interestedRepository.findByInterest(interest).get();
 
 
                 UserInterestedEntity userInterestedEntity = UserInterestedEntity.builder()
