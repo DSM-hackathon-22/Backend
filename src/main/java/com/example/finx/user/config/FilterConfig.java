@@ -1,5 +1,6 @@
 package com.example.finx.user.config;
 
+import com.example.finx.config.ExceptionFilter;
 import com.example.finx.user.jwt.JwtFilter;
 import com.example.finx.user.jwt.JwtParser;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,6 @@ public class FilterConfig implements SecurityConfigurer<DefaultSecurityFilterCha
     @Override
     public void configure(HttpSecurity http) {
         http.addFilterBefore(new JwtFilter(jwtParser), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new ExceptionFilter(), JwtFilter.class);
     }
 }

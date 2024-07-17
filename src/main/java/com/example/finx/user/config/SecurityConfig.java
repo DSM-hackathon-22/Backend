@@ -1,7 +1,6 @@
 package com.example.finx.user.config;
 
 import com.example.finx.user.jwt.JwtParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,13 +30,15 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/user").permitAll()
                     .requestMatchers(HttpMethod.POST, "/login").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/interested").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/news").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v3/api-docs/swagger-config").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v3/api-docs").permitAll()
-            );
+                    .requestMatchers(HttpMethod.POST, "/interested").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/news").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/v3/api-docs/swagger-config").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/v3/api-docs").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/stock").authenticated()
+            )
+            .apply(new FilterConfig(jwtParser));
 
         return http.build();
     }
