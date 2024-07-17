@@ -13,6 +13,7 @@ public interface AboutNews{
     NewsResponse getNews(
             @RequestHeader("X-Naver-Client-Id") String clientId,
             @RequestHeader("X-Naver-Client-Secret") String secretKey,
-            @RequestParam String query
+            @RequestParam String query,
+            @RequestParam Integer display
     );
 }

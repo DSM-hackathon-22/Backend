@@ -13,7 +13,7 @@ public class NewsController {
 
     @GetMapping("/news")
     public NewsResponse news() {
-        NewsResponse newsResponse = aboutNews.getNews("", "","IT");
+        NewsResponse newsResponse = aboutNews.getNews("", "","IT", 6);
         newsResponse.getItems().forEach(item -> {
             item.setDescription(item.getDescription().replace("<b>", ""));
             item.setDescription(item.getDescription().replace("</b>", ""));
