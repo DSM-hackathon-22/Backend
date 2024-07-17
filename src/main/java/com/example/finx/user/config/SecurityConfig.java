@@ -32,11 +32,9 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/user").permitAll()
                     .requestMatchers(HttpMethod.POST, "/login").permitAll()
 
-                    .requestMatchers(HttpMethod.POST, "/interested").authenticated()
-
-                    .requestMatchers(HttpMethod.GET, "/stock").authenticated()
-                    .requestMatchers(HttpMethod.GET, "/a").permitAll()
-            ).apply(new FilterConfig(jwtParser));
+                        .requestMatchers(HttpMethod.POST, "/interested").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/news").authenticated()
+                );
 
         return http.build();
     }
