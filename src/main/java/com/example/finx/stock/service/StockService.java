@@ -2,8 +2,10 @@ package com.example.finx.stock.service;
 
 import com.example.finx.Interests.entity.InterestedEntity;
 import com.example.finx.Interests.repository.InterestedRepository;
+import com.example.finx.config.FinxProperties;
 import com.example.finx.stock.api.StockClient;
 import com.example.finx.stock.api.StockData;
+import com.example.finx.stock.api.StockData.StockElement;
 import com.example.finx.stock.entity.StockEntity;
 import com.example.finx.stock.repository.StockRepository;
 import com.example.finx.user.entity.UserEntity;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -22,15 +25,20 @@ public class StockService {
     private final InterestedRepository interestedRepository;
     private final UserRepository userRepository;
     private final StockRepository stockRepository;
+    private final FinxProperties finxProperties;
 
     public StockData getStock() {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity userEntity = userRepository.findById(Long.valueOf(id)).get();
 
-        StockEntity randomStockEntity = getRandomStockEntity(userEntity.getId());
+        List<StockElement> stockElements = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            StockEntity randomStockEntity = getRandomStockEntity(userEntity.getId());
+            Object stock = stockClient.getStock("TIME_SERIES_DAILY", randomStockEntity.getTickerSymbol(), finxProperties.getStockKey());
 
-        Object stock = stockClient.getStock("TIME_SERIES_DAILY", randomStockEntity.getTickerSymbol(), "EEDV8XBV9EAXM3NQ");
-        return new StockData(stock, randomStockEntity);
+            stockElements.add(new StockElement(stock, randomStockEntity));
+        }
+        return new StockData(stockElements);
     }
 
     private StockEntity getRandomStockEntity(Long userId) {
