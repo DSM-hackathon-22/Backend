@@ -1,9 +1,9 @@
 package com.example.finx.Interests.entity;
 
-import com.example.finx.user.entity.UserEntity;
 import jakarta.persistence.*;
-import org.apache.catalina.User;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class InterestedEntity {
     @Id
@@ -12,5 +12,5 @@ public class InterestedEntity {
 
     private String interest;
 
-
+    private String keyword;
 }
