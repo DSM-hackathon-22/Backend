@@ -6,23 +6,13 @@ import com.example.finx.user.jwt.JwtProvider;
 import com.example.finx.user.jwt.TokenResponse;
 import com.example.finx.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@RequiredArgsConstructor
 @Service
-@Getter
-@AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
@@ -34,18 +24,9 @@ public class UserService implements UserDetailsService {
         return jwtProvider.generateTokens(id);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findById(Long.valueOf(username)).get();
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        return new User(user.getUsername(), user.getPassword(), authorities);
-    }
-
-    public TokenResponse login(UserDto userDto){
+    public TokenResponse login(UserDto userDto) {
         UserEntity userEntity = userRepository.findByusername(userDto.getUsername()).get();
-        if(!passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword())) {
+        if (!passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword())) {
             throw new RuntimeException();
         }
         return jwtProvider.generateTokens(userEntity.getId());
