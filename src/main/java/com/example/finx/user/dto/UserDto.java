@@ -5,7 +5,6 @@ import lombok.*;
 
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class UserDto {
     private String username;

@@ -19,13 +19,16 @@ public class UserService {
 
     @Transactional
     public TokenResponse signUp(UserDto userDto) {
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        Long id = userRepository.save(userDto.toEntity()).getId();
+        UserEntity userEntity = userDto.toEntity();
+        userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        Long id = userRepository.save(userEntity).getId();
         return jwtProvider.generateTokens(id);
     }
 
     public TokenResponse login(UserDto userDto) {
-        UserEntity userEntity = userRepository.findByusername(userDto.getUsername()).get();
+        UserEntity userEntity = userRepository.findByusername(userDto.getUsername())
+            .orElseThrow();
+
         if (!passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword())) {
             throw new RuntimeException();
         }
