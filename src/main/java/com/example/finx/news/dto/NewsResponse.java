@@ -12,7 +12,7 @@ public class NewsResponse {
     @Getter
     @Setter
     public static class Item {
-        private String title;
+        private String link;
         private String description;
     }
 
