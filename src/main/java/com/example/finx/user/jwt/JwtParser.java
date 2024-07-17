@@ -3,7 +3,6 @@ package com.example.finx.user.jwt;
 import com.example.finx.user.service.AuthDetailsService;
 import com.example.finx.user.service.UserService;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
