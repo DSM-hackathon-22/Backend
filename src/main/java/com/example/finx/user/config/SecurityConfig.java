@@ -28,13 +28,16 @@ public class SecurityConfig {
             .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize ->
                 authorize
-                    // healthCheck
                     .requestMatchers(HttpMethod.POST, "/user").permitAll()
                     .requestMatchers(HttpMethod.POST, "/login").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/interested").authenticated()
                         .requestMatchers(HttpMethod.GET, "/news").authenticated()
-                );
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v3/api-docs/swagger-config").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v3/api-docs").permitAll()
+            );
 
         return http.build();
     }
