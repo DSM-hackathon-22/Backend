@@ -33,7 +33,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/login").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/interested").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/news").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/news").authenticated()
                 );
 
         return http.build();
