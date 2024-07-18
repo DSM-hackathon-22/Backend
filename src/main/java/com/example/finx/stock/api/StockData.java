@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -50,12 +52,6 @@ public class StockData {
                 timeSeries.put(date, dailyData);
             }
             return timeSeries;
-        }
-
-        @Getter
-        @AllArgsConstructor
-        public static class MetaData {
-            private String stockName;
         }
 
         @Setter

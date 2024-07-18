@@ -10,6 +10,6 @@ import java.util.List;
 @Setter
 public class InterestsDto {
 
-    private List<String> interests;
+    private String interest;
 
 }

@@ -28,6 +28,6 @@ public class StockEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private InterestedEntity interestedEntity;
 
-    @Column
+    @Column(unique = true)
     private String stockName;
 }

@@ -15,8 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -31,22 +31,17 @@ public class StockService {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity userEntity = userRepository.findById(Long.valueOf(id)).get();
 
-        List<StockElement> stockElements = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            StockEntity randomStockEntity = getRandomStockEntity(userEntity.getId());
-            Object stock = stockClient.getStock("TIME_SERIES_DAILY", randomStockEntity.getTickerSymbol(), finxProperties.getStockKey());
-
-            stockElements.add(new StockElement(stock, randomStockEntity));
-        }
-        return new StockData(stockElements);
-    }
-
-    private StockEntity getRandomStockEntity(Long userId) {
-        InterestedEntity interestedEntity = interestedRepository.findByUserId(userId);
+        InterestedEntity interestedEntity = interestedRepository.findByUserId(userEntity.getId());
         List<StockEntity> stockEntities = stockRepository.findAllByInterestedEntity(interestedEntity);
+        Collections.shuffle(stockEntities);
 
-        Random random = new Random();
-        int randomStockSequence = random.nextInt(stockEntities.size()) + 1;
-        return stockEntities.get(randomStockSequence);
+        List<StockEntity> randomStockEntities = stockEntities.subList(0, Math.min(2, stockEntities.size()));
+        List<StockElement> stockElements = new ArrayList<>();
+        randomStockEntities.forEach(stock -> {
+            Object result = stockClient.getStock("TIME_SERIES_DAILY", stock.getTickerSymbol(), finxProperties.getStockKey());
+            stockElements.add(new StockElement(result, stock));
+        });
+
+        return new StockData(stockElements);
     }
 }
